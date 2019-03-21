@@ -4,36 +4,36 @@ import "./AddTodoItem.css";
 
 export default class AddTodoItem extends Component {
   state = {
-    text: ""
+    telabel: ""
   };
 
   onChangeInput = event => {
-    const { value } = event.target;
+    this.setState({
+      label: event.target.value
+    });
+  };
 
-    this.setState(({ text }) => {
-      return {
-        text: value
-      };
+  onSubmit = event => {
+    event.preventDefault();
+    this.props.onAddedItem(this.state.label);
+    this.setState({
+      label: ""
     });
   };
 
   render() {
-    const { onAddedItem } = this.props;
-    const { text } = this.state;
-
     return (
-      <div className="top-panel d-flex">
+      <form className="top-panel d-flex" onSubmit={this.onSubmit}>
         <input
           type="text"
           className="form-control add-item-input"
           name="add-item"
           placeholder="Add new item"
+          value={this.state.label}
           onChange={this.onChangeInput}
         />
-        <button className="btn btn-info" onClick={() => onAddedItem(text)}>
-          Add
-        </button>
-      </div>
+        <button className="btn btn-info">Add</button>
+      </form>
     );
   }
 }
